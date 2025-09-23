@@ -1,8 +1,15 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Hero from './Hero'
+import Contact from './Contact'
+import { useCart } from '../components/CartContext'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const Home = () => {
   const [selectedPlan, setSelectedPlan] = useState('standard')
+  const { addItem } = useCart()
+  const navigate = useNavigate()
+  const location = useLocation()
+  const [carouselIndexByPlan, setCarouselIndexByPlan] = useState({})
   const [activeTab, setActiveTab] = useState('regular')
 
   const featuredProducts = [
@@ -130,8 +137,97 @@ const Home = () => {
   // Get current plans based on active tab
   const currentPlans = activeTab === 'regular' ? regularPlans : miniPlans
 
+  const planImagesById = {
+    trial: [
+      'https://images.unsplash.com/photo-1569870492215-9b847a5fd74b?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1502741338009-cac2772e18bc?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=1200&auto=format&fit=crop'
+    ],
+    standard: [
+      'https://images.unsplash.com/photo-1547514701-42782101795e?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1457296898342-cdd24585d095?q=80&w=1200&auto=format&fit=crop'
+    ],
+    corporate: [
+      'https://images.unsplash.com/photo-1498550744921-75f79806b8a7?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=1200&auto=format&fit=crop'
+    ],
+    'mini-standard': [
+      'https://images.unsplash.com/photo-1547514701-9d73f1e4a63c?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1546069901-eacef0df6022?q=80&w=1200&auto=format&fit=crop'
+    ],
+    'mini-corporate': [
+      'https://images.unsplash.com/photo-1490818387583-1baba5e638af?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1576402187878-974f70cbafa2?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200&auto=format&fit=crop'
+    ]
+  }
+
+  const goToPrev = (planId) => {
+    const images = planImagesById[planId] || []
+    if (images.length === 0) return
+    setCarouselIndexByPlan((prev) => {
+      const current = prev[planId] ?? 0
+      const next = (current - 1 + images.length) % images.length
+      return { ...prev, [planId]: next }
+    })
+  }
+
+  const goToNext = (planId) => {
+    const images = planImagesById[planId] || []
+    if (images.length === 0) return
+    setCarouselIndexByPlan((prev) => {
+      const current = prev[planId] ?? 0
+      const next = (current + 1) % images.length
+      return { ...prev, [planId]: next }
+    })
+  }
+
+  useEffect(() => {
+    const target = location.state && location.state.scrollTo
+    if (target) {
+      const el = document.getElementById(target)
+      if (el) {
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }, 50)
+      }
+    }
+  }, [location.state])
+
+  const parsePriceToNumber = (priceString) => {
+    if (typeof priceString === 'number') return priceString
+    const digits = String(priceString).replace(/[^0-9.]/g, '').replace(/\.(?=.*\.)/g, '')
+    return Number(digits)
+  }
+
+  const handleSubscribe = (plan) => {
+    const priceNumber = parsePriceToNumber(plan.price)
+    addItem({
+      id: `${plan.id}-${activeTab}`,
+      name: plan.name,
+      price: priceNumber,
+      quantity: 1,
+      image: '🥣',
+      description: plan.subtitle || 'Subscription plan',
+      details: {
+        planId: plan.id,
+        subtitle: plan.subtitle,
+        duration: plan.duration,
+        features: plan.features,
+        period: plan.period,
+        popular: plan.popular,
+        activeTab
+      },
+      currencySymbol: '₹'
+    })
+    navigate('/cart')
+  }
+
   return (
-    <div>
+    <div id="home">
       <Hero />
       
       
@@ -199,6 +295,38 @@ const Home = () => {
                   plan.popular ? 'ring-2 ring-green-500 scale-105' : ''
                 }`}
               >
+                {/* Images Carousel */}
+                <div className="relative h-40 md:h-48 lg:h-52 w-full overflow-hidden rounded-t-2xl">
+                  {(() => {
+                    const images = planImagesById[plan.id] || []
+                    const currentIndex = carouselIndexByPlan[plan.id] ?? 0
+                    const currentSrc = images[currentIndex]
+                    return (
+                      <>
+                        {currentSrc && (
+                          <img src={currentSrc} alt={`${plan.name} image ${currentIndex + 1}`} className="h-full w-full object-cover" />
+                        )}
+                        {images.length > 1 && (
+                          <>
+                            <button onClick={() => goToPrev(plan.id)} className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-700 rounded-full w-8 h-8 flex items-center justify-center shadow">
+                              <span className="sr-only">Previous</span>
+                              ‹
+                            </button>
+                            <button onClick={() => goToNext(plan.id)} className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-700 rounded-full w-8 h-8 flex items-center justify-center shadow">
+                              <span className="sr-only">Next</span>
+                              ›
+                            </button>
+                            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5">
+                              {images.map((_, idx) => (
+                                <span key={idx} className={`h-1.5 w-1.5 rounded-full ${idx === currentIndex ? 'bg-green-600' : 'bg-white/70'}`}></span>
+                              ))}
+                            </div>
+                          </>
+                        )}
+                      </>
+                    )
+                  })()}
+                </div>
                 {/* Popular Badge */}
                 {plan.badge && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
@@ -246,10 +374,18 @@ const Home = () => {
                         ? 'bg-green-600 text-white hover:bg-green-700 shadow-lg hover:shadow-xl'
                         : 'bg-gray-100 text-gray-900 hover:bg-green-600 hover:text-white'
                     }`}
-                    onClick={() => setSelectedPlan(plan.id)}
+                    onClick={() => handleSubscribe(plan)}
                   >
-                    {selectedPlan === plan.id ? 'Selected' : 'Choose Plan'}
+                    Subscribe
                   </button>
+                  <div className="mt-3 text-center">
+                    <button
+                      onClick={() => navigate(`/plan/${encodeURIComponent(plan.id)}`)}
+                      className="text-sm font-medium text-green-700 hover:text-green-800"
+                    >
+                      View more
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
@@ -387,6 +523,11 @@ const Home = () => {
             </button>
           </div>
         </div>
+      </section>
+
+      {/* Contact Section (embedded) */}
+      <section id="contact">
+        <Contact />
       </section>
     </div>
   )

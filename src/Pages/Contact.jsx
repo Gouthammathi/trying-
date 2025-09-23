@@ -33,28 +33,26 @@ const Contact = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-green-50 to-green-100 py-16 lg:py-24">
+      <section className="bg-gradient-to-br from-green-50 to-green-100 py-14 lg:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              Get in
-              <span className="text-green-600 block">Touch</span>
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Get in <span className="text-green-600">Touch</span>
             </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              Have questions about our fruit plans? Need help with your order? 
-              We're here to help you on your healthy journey.
+            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+              Have questions about our fruit plans? Need help with your order? We're here to help.
             </p>
           </div>
         </div>
       </section>
 
       {/* Contact Section */}
-      <section className="py-16 lg:py-20">
+      <section id="contact" className="py-12 lg:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12">
             {/* Contact Form */}
-            <div className="bg-white rounded-2xl shadow-lg p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Send us a Message</h2>
+            <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-200 p-8">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">Send us a message</h2>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
@@ -68,8 +66,8 @@ const Contact = () => {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                      placeholder="Your full name"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white placeholder-gray-400 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                      placeholder="John Doe"
                     />
                   </div>
                   <div>
@@ -83,8 +81,8 @@ const Contact = () => {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                      placeholder="your.email@example.com"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white placeholder-gray-400 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                      placeholder="your@email.com"
                     />
                   </div>
                 </div>
@@ -100,7 +98,7 @@ const Contact = () => {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white placeholder-gray-400 focus:ring-2 focus:ring-green-500 focus:border-transparent"
                       placeholder="+91 98765 43210"
                     />
                   </div>
@@ -114,7 +112,7 @@ const Contact = () => {
                       value={formData.subject}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-green-500 focus:border-transparent"
                     >
                       <option value="">Select a subject</option>
                       <option value="general">General Inquiry</option>
@@ -138,7 +136,7 @@ const Contact = () => {
                     onChange={handleChange}
                     required
                     rows={6}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white placeholder-gray-400 focus:ring-2 focus:ring-green-500 focus:border-transparent"
                     placeholder="Tell us how we can help you..."
                   />
                 </div>
@@ -155,7 +153,7 @@ const Contact = () => {
             {/* Contact Information */}
             <div className="space-y-8">
               {/* Contact Details */}
-              <div className="bg-white rounded-2xl shadow-lg p-8">
+              <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-200 p-8">
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">Contact Information</h2>
                 <div className="space-y-6">
                   <div className="flex items-start">

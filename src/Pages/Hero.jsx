@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 
 const Hero = () => {
   return (
@@ -29,12 +28,20 @@ const Hero = () => {
             >
               Explore Plans
             </button>
-            <Link
-              to="/details"
+            <button
+              onClick={() => {
+                const detailsSection = document.getElementById('details')
+                if (detailsSection) {
+                  detailsSection.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                  })
+                }
+              }}
               className="border-2 border-green-600 text-green-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-green-600 hover:text-white transition-colors duration-200"
             >
               View Products
-            </Link>
+            </button>
           </div>
         </div>
         
