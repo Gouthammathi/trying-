@@ -3,6 +3,10 @@ import Hero from './Hero'
 import Contact from './Contact'
 import { useCart } from '../components/CartContext'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
+import { Button } from '../components/ui/button'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../components/ui/accordion'
+import { Check, Star, ArrowRight, Heart } from 'lucide-react'
 
 const Home = () => {
   const [selectedPlan, setSelectedPlan] = useState('standard')
@@ -230,31 +234,101 @@ const Home = () => {
     <div id="home">
       <Hero />
       
-      
+      {/* Features Section */}
+      <section className="py-16 bg-white dark:bg-gray-900">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              Why Choose Fruitopia?
+            </h2>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              Experience the benefits of our carefully curated fruit subscription service
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              {
+                icon: '🚚',
+                title: 'Fast Delivery',
+                description: 'Get your fresh fruits delivered within 24 hours of ordering'
+              },
+              {
+                icon: '🌱',
+                title: '100% Organic',
+                description: 'Certified organic fruits sourced from trusted farms'
+              },
+              {
+                icon: '💚',
+                title: 'Healthy Living',
+                description: 'Promote a healthier lifestyle with nutritious fruit choices'
+              },
+              {
+                icon: '🔄',
+                title: 'Flexible Plans',
+                description: 'Choose from various subscription plans that fit your needs'
+              }
+            ].map((feature, index) => (
+              <motion.div
+                key={index}
+                className="text-center group"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -5 }}
+              >
+                <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-green-200 dark:group-hover:bg-green-800/50 transition-colors duration-300">
+                  <span className="text-2xl">{feature.icon}</span>
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{feature.title}</h3>
+                <p className="text-gray-600 dark:text-gray-300 text-sm">{feature.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Plans Section */}
-      <section id="plans" className="py-16 lg:py-20 bg-gray-50">
+      <section id="plans" className="py-16 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Choose Your Perfect
-              <span className="text-green-600 block">Fruit Plan</span>
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              Choose Your Perfect Plan
             </h2>
-            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               Fresh, nutritious fruit bowls delivered to your doorstep. 
               Start your healthy journey with our flexible subscription plans.
             </p>
-          </div>
+          </motion.div>
 
           {/* Tab Navigation */}
-          <div className="flex flex-col items-center mb-12">
-            <div className="bg-white rounded-lg p-1 shadow-lg mb-4">
+          <motion.div 
+            className="flex flex-col items-center mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            <div className="bg-white dark:bg-gray-700 rounded-lg p-1 shadow-lg mb-4">
               <button
                 onClick={() => setActiveTab('regular')}
                 className={`px-8 py-3 rounded-md font-semibold transition-all duration-200 ${
                   activeTab === 'regular'
                     ? 'bg-green-600 text-white shadow-lg'
-                    : 'text-gray-700 hover:text-green-600 hover:bg-gray-50'
+                    : 'text-gray-700 dark:text-gray-300 hover:text-green-600 hover:bg-gray-50 dark:hover:bg-gray-600'
                 }`}
               >
                 Regular Bowls
@@ -264,7 +338,7 @@ const Home = () => {
                 className={`px-8 py-3 rounded-md font-semibold transition-all duration-200 ${
                   activeTab === 'mini'
                     ? 'bg-green-600 text-white shadow-lg'
-                    : 'text-gray-700 hover:text-green-600 hover:bg-gray-50'
+                    : 'text-gray-700 dark:text-gray-300 hover:text-green-600 hover:bg-gray-50 dark:hover:bg-gray-600'
                 }`}
               >
                 Mini Bowls
@@ -274,29 +348,40 @@ const Home = () => {
             {/* Tab Description */}
             <div className="text-center max-w-2xl">
               {activeTab === 'regular' ? (
-                <p className="text-gray-600">
+                <p className="text-gray-600 dark:text-gray-300">
                   <span className="font-semibold text-green-600">Regular Bowls</span> - Full-sized nutritious fruit bowls perfect for adults and families. 
                   Contains 5 varieties of fruits, vegetables, nuts/sprouts with 600-700 grams of fresh produce.
                 </p>
               ) : (
-                <p className="text-gray-600">
+                <p className="text-gray-600 dark:text-gray-300">
                   <span className="font-semibold text-green-600">Mini Bowls</span> - Smaller portions perfect for kids, light eaters, or quick healthy snacks. 
                   Contains 3 varieties of fruits, vegetables, nuts/sprouts with 250-350 grams of fresh produce.
                 </p>
               )}
             </div>
-          </div>
+          </motion.div>
 
-          <div key={activeTab} className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 transition-all duration-500 ease-in-out">
-            {currentPlans.map((plan) => (
-              <div
+          <motion.div 
+            key={activeTab} 
+            className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 transition-all duration-500 ease-in-out"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, staggerChildren: 0.1 }}
+          >
+            {currentPlans.map((plan, index) => (
+              <motion.div
                 key={plan.id}
-                className={`relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 ${
+                className={`relative bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 group overflow-hidden ${
                   plan.popular ? 'ring-2 ring-green-500 scale-105' : ''
                 }`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                whileHover={{ y: -8, scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
                 {/* Images Carousel */}
-                <div className="relative h-40 md:h-48 lg:h-52 w-full overflow-hidden rounded-t-2xl">
+                <div className="relative h-48 md:h-52 lg:h-56 w-full overflow-hidden">
                   {(() => {
                     const images = planImagesById[plan.id] || []
                     const currentIndex = carouselIndexByPlan[plan.id] ?? 0
@@ -329,65 +414,188 @@ const Home = () => {
                 </div>
                 {/* Popular Badge */}
                 {plan.badge && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <span className="bg-green-600 text-white px-4 py-2 rounded-full text-sm font-semibold">
-                      {plan.badge}
+                  <motion.div 
+                    className="absolute -top-4 left-1/2 transform -translate-x-1/2"
+                    initial={{ scale: 0, rotate: -180 }}
+                    animate={{ scale: 1, rotate: 0 }}
+                    transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
+                  >
+                    <span className="bg-gradient-to-r from-green-600 to-green-500 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg flex items-center space-x-1">
+                      <Star className="w-4 h-4 fill-current" />
+                      <span>{plan.badge}</span>
                     </span>
-                  </div>
+                  </motion.div>
                 )}
 
                 <div className="p-8">
                   {/* Plan Header */}
-                  <div className="text-center mb-6">
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
-                    <p className="text-green-600 font-medium mb-3">{plan.duration}</p>
+                  <motion.div 
+                    className="text-center mb-6"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.2 }}
+                  >
+                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">{plan.name}</h3>
+                    <p className="text-green-600 dark:text-green-400 font-medium mb-4">{plan.duration}</p>
                     <div className="flex items-center justify-center mb-4">
-                      <span className="text-4xl font-bold text-gray-900">{plan.price}</span>
-                      <span className="text-lg text-gray-600 ml-1">{plan.period}</span>
+                      <span className="text-4xl font-bold text-gray-900 dark:text-white">{plan.price}</span>
+                      <span className="text-lg text-gray-600 dark:text-gray-400 ml-2">{plan.period}</span>
                     </div>
-                  </div>
+                  </motion.div>
 
                   {/* Plan Description */}
-                  <div className="mb-6">
-                    <p className="text-gray-600 text-sm leading-relaxed">{plan.description}</p>
-                  </div>
+                  <motion.div 
+                    className="mb-6"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.3 }}
+                  >
+                    <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed text-center">{plan.description}</p>
+                  </motion.div>
 
                   {/* Features */}
-                  <div className="mb-8">
-                    <h4 className="font-semibold text-gray-900 mb-4">What's Included:</h4>
+                  <motion.div 
+                    className="mb-8"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.4 }}
+                  >
+                    <h4 className="font-semibold text-gray-900 dark:text-white mb-4 text-base">What's Included:</h4>
                     <ul className="space-y-3">
                       {plan.features.map((feature, index) => (
-                        <li key={index} className="flex items-center">
-                          <svg className="w-5 h-5 text-green-600 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                          </svg>
-                          <span className="text-gray-700">{feature}</span>
-                        </li>
+                        <motion.li 
+                          key={index} 
+                          className="flex items-center"
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.5 + index * 0.1 }}
+                        >
+                          <motion.div
+                            className="w-5 h-5 text-green-600 mr-3 flex-shrink-0"
+                            whileHover={{ scale: 1.2, rotate: 360 }}
+                            transition={{ duration: 0.3 }}
+                          >
+                            <Check className="w-5 h-5" />
+                          </motion.div>
+                          <span className="text-gray-700 dark:text-gray-300 text-sm">{feature}</span>
+                        </motion.li>
                       ))}
                     </ul>
-                  </div>
+                  </motion.div>
 
                   {/* CTA Button */}
-                  <button
-                    className={`w-full py-4 rounded-xl font-semibold text-lg transition-all duration-200 ${
-                      plan.popular
-                        ? 'bg-green-600 text-white hover:bg-green-700 shadow-lg hover:shadow-xl'
-                        : 'bg-gray-100 text-gray-900 hover:bg-green-600 hover:text-white'
-                    }`}
-                    onClick={() => handleSubscribe(plan)}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.6 }}
                   >
-                    Subscribe
-                  </button>
-                  <div className="mt-3 text-center">
+                    <Button
+                      className={`w-full py-4 rounded-xl font-semibold text-lg transition-all duration-200 group ${
+                        plan.popular
+                          ? 'bg-gradient-to-r from-green-600 to-green-500 text-white hover:from-green-700 hover:to-green-600 shadow-lg hover:shadow-xl'
+                          : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-green-600 hover:text-white'
+                      }`}
+                      onClick={() => handleSubscribe(plan)}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <span className="flex items-center justify-center space-x-2">
+                        <span>Subscribe Now</span>
+                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                      </span>
+                    </Button>
+                  </motion.div>
+                  
+                  <motion.div 
+                    className="mt-4 text-center"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.7 }}
+                  >
                     <button
                       onClick={() => navigate(`/plan/${encodeURIComponent(plan.id)}`)}
-                      className="text-sm font-medium text-green-700 hover:text-green-800"
+                      className="text-sm font-medium text-green-700 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 flex items-center space-x-1 mx-auto group"
                     >
-                      View more
+                      <span>View Details</span>
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </button>
+                  </motion.div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-16 bg-white dark:bg-gray-900">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              What Our Customers Say
+            </h2>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              Join thousands of satisfied customers who trust Fruitopia for their daily fruit needs
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              {
+                name: "Sarah Johnson",
+                role: "Health Enthusiast",
+                image: "👩‍💼",
+                rating: 5,
+                text: "Fruitopia has completely transformed my daily nutrition. The quality is exceptional and delivery is always on time. I love the variety of organic fruits!"
+              },
+              {
+                name: "Michael Chen",
+                role: "Busy Professional",
+                image: "👨‍💻",
+                rating: 5,
+                text: "As a working professional, I don't have time to shop for fresh fruits. Fruitopia delivers the best quality fruits right to my doorstep. Highly recommended!"
+              },
+              {
+                name: "Emily Rodriguez",
+                role: "Mother of Two",
+                image: "👩‍👧‍👦",
+                rating: 5,
+                text: "My kids absolutely love the fruit bowls! The mini portions are perfect for them, and I love that everything is organic and fresh. Great service!"
+              }
+            ].map((testimonial, index) => (
+              <motion.div
+                key={index}
+                className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -5 }}
+              >
+                <div className="flex items-center mb-4">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                  ))}
+                </div>
+                <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+                  "{testimonial.text}"
+                </p>
+                <div className="flex items-center">
+                  <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mr-4">
+                    <span className="text-2xl">{testimonial.image}</span>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-gray-900 dark:text-white">{testimonial.name}</h4>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{testimonial.role}</p>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -522,6 +730,138 @@ const Home = () => {
               Subscribe
             </button>
           </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-16 bg-gray-50 dark:bg-gray-900">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div 
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              Everything you need to know about our fruit subscription service
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            <Accordion type="single" collapsible className="w-full space-y-4">
+              {[
+                {
+                  question: "How fresh are the fruits delivered?",
+                  answer: "All our fruits are hand-picked and delivered within 24 hours of harvest. We work directly with certified organic farms to ensure maximum freshness and quality."
+                },
+                {
+                  question: "Can I customize my fruit selection?",
+                  answer: "Yes! While we curate seasonal selections for optimal taste and nutrition, you can specify preferences and dietary restrictions. We'll do our best to accommodate your needs."
+                },
+                {
+                  question: "What if I'm not satisfied with my order?",
+                  answer: "We offer a 100% satisfaction guarantee. If you're not happy with your fruit delivery, contact us within 24 hours and we'll provide a full refund or replacement."
+                },
+                {
+                  question: "How do I pause or cancel my subscription?",
+                  answer: "You can easily manage your subscription through your account dashboard. Pause, skip deliveries, or cancel anytime with no penalties. Changes take effect for your next scheduled delivery."
+                },
+                {
+                  question: "Do you deliver to my area?",
+                  answer: "We currently deliver to major cities across India. Check our delivery areas on the checkout page, or contact us to see if we can arrange delivery to your location."
+                },
+                {
+                  question: "What packaging do you use?",
+                  answer: "We use 100% eco-friendly, biodegradable packaging. Our boxes are made from recycled materials and can be composted after use. We're committed to sustainable practices."
+                }
+              ].map((faq, index) => (
+                <AccordionItem 
+                  key={index} 
+                  value={`item-${index}`}
+                  className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 px-6"
+                >
+                  <AccordionTrigger className="text-left font-semibold text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400">
+                    {faq.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16 bg-green-600 dark:bg-green-700">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Ready to Start Your Healthy Journey?
+            </h2>
+            <p className="text-xl text-green-100 mb-8 max-w-2xl mx-auto">
+              Join thousands of satisfied customers and get fresh, organic fruits delivered to your doorstep today!
+            </p>
+            <motion.div
+              className="flex flex-col sm:flex-row gap-4 justify-center"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+            >
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Button 
+                  onClick={() => {
+                    const plansSection = document.getElementById('plans')
+                    if (plansSection) {
+                      plansSection.scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start'
+                      })
+                    }
+                  }}
+                  size="lg"
+                  className="px-8 py-4 text-lg bg-white text-green-600 hover:bg-gray-100 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
+                >
+                  <span className="flex items-center space-x-2">
+                    <span>Get Started Now</span>
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                </Button>
+              </motion.div>
+              
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Button 
+                  variant="outline"
+                  size="lg"
+                  className="px-8 py-4 text-lg border-2 border-white text-white hover:bg-white hover:text-green-600 rounded-full transition-all duration-300"
+                >
+                  Learn More
+                </Button>
+              </motion.div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
